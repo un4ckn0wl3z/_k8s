@@ -1,0 +1,29 @@
+# storageClassName in PV and PVC should be same. Add the persistent-volume name as volumeName in PVC to bound PVC to a specific PV.
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-name
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 40Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-name
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  volumeName: pv-name

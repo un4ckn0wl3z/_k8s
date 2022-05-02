@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: foo-pvc
+spec:
+  volumeName: foo-pv
+  storageClassName: "standard"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "1Gi"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: foo-pv
+#  name: bar-pv
+spec:
+  storageClassName: "standard"
+  capacity:
+    storage: "1Gi"
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/test/"
+#  claimRef:
+#    name: foo-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foo-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: nginx-storage
+            mountPath: /test/
+      volumes:
+      - name: nginx-storage
+        persistentVolumeClaim:
+          claimName: foo-pvc
