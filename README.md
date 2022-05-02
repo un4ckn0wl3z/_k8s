@@ -1,6 +1,3 @@
-# _k8s
-k8s example use-cases
-
 ## k8s commands
 
 ### get nodes status
@@ -98,3 +95,9 @@ helm uninstall mongodb
 
 ### k9s cli
 k9s
+
+### create secret from file / create docker login credentials from file
+kubectl create secret generic my-secret --from-file=.dockerconfigjson=.docker/config.json --type=kubernetes.io/dockerconfigjson
+
+### create docker login credentials from kubectl
+kubectl create secret docker-registry my-registry-key --docker-server=[rep-url] --docker-username=[username] --docker-password=[password]
