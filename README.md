@@ -101,3 +101,11 @@ kubectl create secret generic my-secret --from-file=.dockerconfigjson=.docker/co
 
 ### create docker login credentials from kubectl
 kubectl create secret docker-registry my-registry-key --docker-server=[rep-url] --docker-username=[username] --docker-password=[password]
+
+
+### install Prometheus-operator
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts <br>
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/ <br>
+helm repo update <br>
+helm install prometheus prometheus-community/kube-prometheus-stack
+
