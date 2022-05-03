@@ -104,8 +104,13 @@ kubectl create secret docker-registry my-registry-key --docker-server=[rep-url] 
 
 
 ### install Prometheus-operator
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts <br>
-helm repo add stable https://kubernetes-charts.storage.googleapis.com/ <br>
-helm repo update <br>
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+helm repo update
+
+
 helm install prometheus prometheus-community/kube-prometheus-stack
 
+
+### quickly check current user cam perform given action
+kubectl auth can-i create deployments --namespace default
