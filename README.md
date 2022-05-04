@@ -129,3 +129,9 @@ helm install -f email-service-values.yaml emailservice microservice
 
 ### helm install dry run
 helm install --dry-run -f email-service-values.yaml emailservice microservice  
+
+### deploy cluster using helmfile
+helmfile sync
+
+### uninstall cluster using helmfile
+helmfile destroy
