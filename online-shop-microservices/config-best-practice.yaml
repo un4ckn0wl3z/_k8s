@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: emailservice
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: emailservice
@@ -14,12 +15,27 @@ spec:
     spec:
       containers:
       - name: server
-        image: un4ckn0wl3z/emailservice
+        image: un4ckn0wl3z/emailservice:latest
         ports:
         - containerPort: 8080
         env:
         - name: PORT
           value: "8080"
+        livenessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:8080"]
+        readinessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:8080"]
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
 ---
 apiVersion: v1
 kind: Service
@@ -40,6 +56,7 @@ kind: Deployment
 metadata:
   name: recommendationservice
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: recommendationservice
@@ -50,7 +67,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: un4ckn0wl3z/recommendationservice
+        image: un4ckn0wl3z/recommendationservice:latest
         ports:
         - containerPort: 8080
         env:
@@ -58,6 +75,14 @@ spec:
           value: "8080"
         - name: PRODUCT_CATALOG_SERVICE_ADDR
           value: "productcatalogservice:3550"
+        livenessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:8080"]
+        readinessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:8080"] 
 ---
 apiVersion: v1
 kind: Service
@@ -78,6 +103,7 @@ kind: Deployment
 metadata:
   name: paymentservice
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: paymentservice
@@ -88,12 +114,20 @@ spec:
     spec:
       containers:
       - name: server
-        image: un4ckn0wl3z/paymentservice
+        image: un4ckn0wl3z/paymentservice:latest
         ports:
         - containerPort: 50051
         env:
         - name: PORT
           value: "50051"
+        livenessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:50051"]
+        readinessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:50051"] 
 ---
 apiVersion: v1
 kind: Service
@@ -114,6 +148,7 @@ kind: Deployment
 metadata:
   name: productcatalogservice
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: productcatalogservice
@@ -124,12 +159,21 @@ spec:
     spec:
       containers:
       - name: server
-        image: un4ckn0wl3z/productcatalogservice
+        image: un4ckn0wl3z/productcatalogservice:latest
         ports:
         - containerPort: 3550
         env:
         - name: PORT
           value: "3550"
+        livenessProbe:
+          periodSeconds: 5
+          httpGet:
+            path: /health
+            port: 3350
+        readinessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:3550"] 
 ---
 apiVersion: v1
 kind: Service
@@ -150,6 +194,7 @@ kind: Deployment
 metadata:
   name: currencyservice
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: currencyservice
@@ -160,12 +205,20 @@ spec:
     spec:
       containers:
       - name: server
-        image: un4ckn0wl3z/currencyservice
+        image: un4ckn0wl3z/currencyservice:latest
         ports:
         - containerPort: 7000
         env:
         - name: PORT
           value: "7000"
+        livenessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:7000"]
+        readinessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:7000"] 
 ---
 apiVersion: v1
 kind: Service
@@ -186,6 +239,7 @@ kind: Deployment
 metadata:
   name: shippingservice
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: shippingservice
@@ -196,12 +250,20 @@ spec:
     spec:
       containers:
       - name: server
-        image: un4ckn0wl3z/shippingservice
+        image: un4ckn0wl3z/shippingservice:latest
         ports:
         - containerPort: 50051
         env:
         - name: PORT
           value: "50051"
+        livenessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:50051"]
+        readinessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:50051"] 
 ---
 apiVersion: v1
 kind: Service
@@ -222,6 +284,7 @@ kind: Deployment
 metadata:
   name: adservice
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: adservice
@@ -232,12 +295,27 @@ spec:
     spec:
       containers:
       - name: server
-        image: un4ckn0wl3z/adservice
+        image: un4ckn0wl3z/adservice:latest
         ports:
         - containerPort: 9555
         env:
         - name: PORT
           value: "9555"
+        livenessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:9555"]
+        readinessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:9555"]
+        resources:
+          requests:
+            cpu: 200m
+            memory: 180Mi
+          limits:
+            cpu: 300m
+            memory: 300Mi 
 ---
 apiVersion: v1
 kind: Service
@@ -258,6 +336,7 @@ kind: Deployment
 metadata:
   name: cartservice
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: cartservice
@@ -268,12 +347,20 @@ spec:
     spec:
       containers:
       - name: server
-        image: un4ckn0wl3z/cartservice
+        image: un4ckn0wl3z/cartservice:latest
         ports:
         - containerPort: 7070
         env:
         - name: REDIS_ADDR
           value: "redis-cart:6379"
+        livenessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:7070"]
+        readinessProbe:
+          periodSeconds: 5
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:7070"] 
 ---
 apiVersion: v1
 kind: Service
@@ -294,6 +381,7 @@ kind: Deployment
 metadata:
   name: checkoutservice
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: checkoutservice
@@ -304,7 +392,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: un4ckn0wl3z/checkoutservice
+          image: un4ckn0wl3z/checkoutservice:latest
           ports:
           - containerPort: 5050
           env:
@@ -322,6 +410,14 @@ spec:
             value: "currencyservice:7000"
           - name: CART_SERVICE_ADDR
             value: "cartservice:7070"
+          livenessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:5050"]
+          readinessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:5050"] 
 ---
 apiVersion: v1
 kind: Service
@@ -342,6 +438,7 @@ kind: Deployment
 metadata:
   name: frontend
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: frontend
@@ -352,7 +449,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: un4ckn0wl3z/frontend
+          image: un4ckn0wl3z/frontend:latest
           ports:
           - containerPort: 8080
           env:
@@ -372,6 +469,14 @@ spec:
             value: "checkoutservice:5050"
           - name: AD_SERVICE_ADDR
             value: "adservice:9555"
+          livenessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          readinessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"] 
 ---
 apiVersion: v1
 kind: Service
@@ -391,15 +496,13 @@ kind: Service
 metadata:
   name: frontend-external
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: frontend
   ports:
   - name: http
     port: 80
     targetPort: 8080
-    nodePort: 30007
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -422,6 +525,23 @@ spec:
         volumeMounts:
         - mountPath: /data
           name: redis-data
+        livenessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          tcpSocket:
+            port: 6379
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          tcpSocket:
+            port: 6379
+        resources:
+          requests:
+            cpu: 70m
+            memory: 200Mi
+          limits:
+            cpu: 125m
+            memory: 300Mi 
       volumes:
       - name: redis-data
         emptyDir: {}
@@ -438,3 +558,4 @@ spec:
   - name: redis
     port: 6379
     targetPort: 6379
+
