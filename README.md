@@ -111,3 +111,21 @@ helm install prometheus prometheus-community/kube-prometheus-stack
 
 ### quickly check current user can perform given action
 kubectl auth can-i create deployments --namespace default
+
+### helm create chart
+helm create microservice
+
+### generate helm template for checking values
+helm template -f email-service-values.yaml microservice
+
+### override helm template using  --set flag
+helm template -f email-service-values.yaml --set appReplicas=3 microservice
+
+### helm lint template
+helm lint -f email-service-values.yaml microservice
+
+### install helm chart
+helm install -f email-service-values.yaml emailservice microservice  
+
+### helm install dry run
+helm install --dry-run -f email-service-values.yaml emailservice microservice  
