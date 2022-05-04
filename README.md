@@ -109,5 +109,5 @@ helm repo add stable https://kubernetes-charts.storage.googleapis.com/ <br>
 helm repo update <br>
 helm install prometheus prometheus-community/kube-prometheus-stack
 
-### quickly check current user cam perform given action
+### quickly check current user can perform given action
 kubectl auth can-i create deployments --namespace default
