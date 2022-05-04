@@ -1,0 +1,11 @@
+appName: shippingservice
+appImage: un4ckn0wl3z/shippingservice
+appVersion: latest
+appReplicas: 2
+containerPort: 50051
+containerEnvVar:
+  - name: PORT
+    value: "50051"
+
+serviceType: ClusterIP
+servicePort: 50051

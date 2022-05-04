@@ -1,0 +1,10 @@
+appName: productcatalogservice
+appImage: un4ckn0wl3z/productcatalogservice
+appVersion: latest
+appReplicas: 2
+containerPort: 3550
+containerEnvVar:
+- name: PORT
+  value: "3550"
+
+servicePort: 3550

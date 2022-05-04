@@ -1,0 +1,13 @@
+appName: cartservice
+appImage: un4ckn0wl3z/cartservice
+appVersion: latest
+appReplicas: 2
+containerPort: 7070
+containerEnvVar:
+  - name: PORT
+    value: "7070"
+  - name: REDIS_ADDR
+    value: "redis-cart:6379"  
+
+serviceType: ClusterIP
+servicePort: 7070

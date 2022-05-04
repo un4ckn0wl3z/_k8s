@@ -1,0 +1,11 @@
+appName: currencyservice
+appImage: un4ckn0wl3z/currencyservice
+appVersion: latest
+appReplicas: 2
+containerPort: 7000
+containerEnvVar:
+  - name: PORT
+    value: "7000"
+
+serviceType: ClusterIP
+servicePort: 7000

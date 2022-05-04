@@ -1,0 +1,10 @@
+appName: emailservice
+appImage: un4ckn0wl3z/emailservice
+appVersion: latest
+appReplicas: 2
+containerPort: 8080
+containerEnvVar:
+- name: PORT
+  value: "8080" 
+
+servicePort: 5000
